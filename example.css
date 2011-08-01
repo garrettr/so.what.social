@@ -1,0 +1,30 @@
+body {
+    font:14px/1.5 Georgia, serif;
+    background-color:black;
+    color:white;
+    width:600px;
+    margin:0 auto;
+}
+
+#activityFeed {
+    width:300px;
+}
+
+#activityFeed ol {
+    list-style-type:none;
+}
+
+#activityFeed li {
+    display: block;
+    margin-bottom:5px;
+    color:#fff;
+    background:#333;
+    padding:8px;
+    border-radius:5px;
+}
+
+#activityFeed li:hover { background:#444; }
+
+#activityFeed .logo { float:right; position:relative; }
+
+#activityFeed a { color:#4AC0FF; }
