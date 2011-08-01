@@ -1,10 +1,9 @@
 var jsonFeeds =
 {
-    "feeds":
-        [
-        { "title": "Ramps", "type": "twitter", "id": "RAMPSWV" },
-        { "title": "Appalachia Rising", "type": "facebook", "id": "http://www.facebook.com/feeds/page.php?id=135221739823874&format=rss20" },
-        { "title": "Honest Appalachia", "type": "rss/atom", "id": "https://blog.honestappalachia.org/feed/" }
+    "feeds": [
+    { "title": "Ramps", "type": "twitter", "id": "RAMPSWV" },
+    { "title": "Appalachia Rising", "type": "facebook", "id": "http://www.facebook.com/feeds/page.php?id=135221739823874&format=rss20" },
+    { "title": "Honest Appalachia", "type": "rss/atom", "id": "https://blog.honestappalachia.org/feed/" }
     ],
         "errors": false
 };
@@ -15,14 +14,6 @@ function forEach(array, action) {
         action(array[i]);
 }
 
-/* debugging JSON 
-   document.write("<ol>");
-   forEach(jsonFeeds.feeds, function(feed) {
-   document.write("<li>" + feed.title + ", " + feed.type + ": " + feed.id + "</li>");
-   });
-   document.write("</ol>");
-   */
-
 var sws = {};
 sws.POST_ARRAY = new Array();
 sws.CONTAINER = null;
@@ -31,8 +22,13 @@ sws.FINISHED = 0;
 sws.TOTAL = 0;
 
 /* jquery plugin authoring: http://docs.jquery.com/Plugins/Authoring */
+/* THE PARENT CLOSURE */
 (function($) {
     $.fn.soWhatSocial = function(callback) {
+
+        var settings = {
+            'feeds': [],
+        }
 
         sws.CONTAINER = $(this);
         sws.TOTAL = jsonFeeds.feeds.length;
@@ -106,28 +102,28 @@ function tryTwitter(id) {
 function tryYQLFeed(id) {
     $.jsonp({
         "url": "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D%22"+encodeURIComponent(id)+"%22&format=json",
-        "success": function(d) {
-            if (d.query.results.rss) {
-                $(d.query.results.rss.channel.item).each(function () {
-                    var title = this.title;
-                    var link = this.link;
-                    var description = this.description;
-                    var pubDate = this.pubDate;
-                    var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
+    "success": function(d) {
+        if (d.query.results.rss) {
+            $(d.query.results.rss.channel.item).each(function () {
+                var title = this.title;
+                var link = this.link;
+                var description = this.description;
+                var pubDate = this.pubDate;
+                var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
 
-                    /* append to div */
-                    sws.POST_ARRAY[sws.COUNT] = new Array();
-                    /* domain specific icon code here? */
-                    sws.POST_ARRAY[sws.COUNT][0] = "<li>Title: " + title + ", Link: " + link + ", Description: " + description + "</li>";
-                    sws.POST_ARRAY[sws.COUNT][1] = relative_time(pubDate);
-                    sws.POST_ARRAY[sws.COUNT][2] = get_delta(pubDate);
-                    sws.COUNT++;
-                });
-            }
-        },
-        "error": function(d, msg) {
-            console.log("ERROR Could not load resource: YQLFeed, "+id);
+                /* append to div */
+                sws.POST_ARRAY[sws.COUNT] = new Array();
+                /* domain specific icon code here? */
+                sws.POST_ARRAY[sws.COUNT][0] = "<li>Title: " + title + ", Link: " + link + ", Description: " + description + "</li>";
+                sws.POST_ARRAY[sws.COUNT][1] = relative_time(pubDate);
+                sws.POST_ARRAY[sws.COUNT][2] = get_delta(pubDate);
+                sws.COUNT++;
+            });
         }
+    },
+    "error": function(d, msg) {
+        console.log("ERROR Could not load resource: YQLFeed, "+id);
+    }
     });
     sws.FINISHED++;
 }
