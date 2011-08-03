@@ -80,6 +80,8 @@ Example:
     Depends on original resource type, will have to build a URL (see earlier URL work in feedeater,
     esp. for Twitter).
 4.  Better error handling.
+    Error - sometimes YQL returns null. This crashes the immediate function, FINISHED++ is never called.
+    There's a better way.
 5.  The building of the <li> text (POST_ARRAY[COUNT][0]) is awkward and repetitive. Better way?
 
 ## Notes about backend technology
