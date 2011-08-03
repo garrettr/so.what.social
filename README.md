@@ -68,4 +68,16 @@ Example:
         });
     </script>
 
+## TODO
 
+1.  Incorporate more settings for easy customization without digging into the code.
+    Ideas:
+    1.  URLs for feed-type icons. Perhaps a dictionary that matches with "type"
+    2.  Number of posts to show (total)
+    3.  Max. posts from any source
+2.  There's a lot of repetitive code in Facebook/RSS right now. Think about it.
+3.  Make the grey link boxes clickable - should take you to the original asset.
+    Depends on original resource type, will have to build a URL (see earlier URL work in feedeater,
+    esp. for Twitter).
+4.  Better error handling.
+5.  The building of the <li> text (POST_ARRAY[COUNT][0]) is awkward and repetitive. Better way?
