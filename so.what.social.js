@@ -10,8 +10,13 @@
     $.fn.soWhatSocial = function (options) {
 
         var defaults = {
-            'feeds': []
+            'feeds': [],                // list of feeds in format { 'title': '', 'type': '', 'id': '' }
+            'sourceMax': 5              // max number to show from any one source
         };
+
+        // merge defaults with options provided by caller
+        var settings = $.extend( defaults, options );
+        TOTAL = settings.feeds.length;
 
         CONTAINER = this;
 
@@ -108,7 +113,7 @@
 
         function tryTwitter(feed) {
             $.jsonp({
-                url: "http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+feed.id+"&trim_user=true&callback=?",
+                url: "http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+feed.id+"&trim_user=true&count="+settings.sourceMax+"&include_rts=1&callback=?",
             cache: true,
             success: function(d) {
                 $(d).each(function () {
@@ -130,14 +135,12 @@
             });
         }
         function tryFacebook(feed) {
-            // uses YQL select * from xml at the moment
-            // basically the same as tryRSS, just inserting the Facebook icon
-            // there is a better, less repetitive way to do this...
+            // uses YQL select * from feed at the moment
             $.jsonp({
-                url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D%22"+encodeURIComponent(feed.id)+"%22&format=json&callback=?",
+                url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20feed%20where%20url%3D%22"+encodeURIComponent(feed.id)+"%22%20limit%20"+settings.sourceMax+"&format=json&callback=?",
             cache: true,
             success: function(d) {
-                $(d.query.results.rss.channel.item).each(function () {
+                $(d.query.results.item).each(function () {
                     var title = this.title;
                     var link = this.link;
                     var description = this.description;
@@ -162,12 +165,12 @@
 
         }
         function tryRSS(feed) {
-            // uses YQL select * from xml at the moment
+            // uses YQL select * from feed at the moment
             $.jsonp({
-                url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D%22"+encodeURIComponent(feed.id)+"%22&format=json&callback=?",
+                url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20feed%20where%20url%3D%22"+encodeURIComponent(feed.id)+"%22%20limit%20"+settings.sourceMax+"&format=json&callback=?",
             cache: true,
             success: function(d) {
-                $(d.query.results.rss.channel.item).each(function () {
+                $(d.query.results.item).each(function () {
                     var title = this.title;
                     var link = this.link;
                     var description = this.description;
@@ -214,10 +217,6 @@
 
         // FEED PROCESSING LOOP
         return this.each(function () {
-
-            // merge defaults with options provided by caller
-            var settings = $.extend( defaults, options );
-            TOTAL = settings.feeds.length;
 
             $.each(settings.feeds, function(index, feed) {
                 if( feed.type == "twitter" ) {

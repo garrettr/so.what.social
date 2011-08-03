@@ -82,9 +82,27 @@ Example:
 4.  Better error handling.
 5.  The building of the <li> text (POST_ARRAY[COUNT][0]) is awkward and repetitive. Better way?
 
+## Notes about backend technology
+
+The Twitter API is working flawlessly. YQL, on the other hand, has some problems. In no particular order,
+
+1.  Sometimes `SELECT * FROM xml WHERE url="wevs"` returns null for no reason. Refreshing the page once or
+    twice makes the request go through. At the moment this code will just ignore that particular feed if
+    something like this happens. 
+2.  Neither limit nor xml(x) appears to work to limit the number of responses from a query. I've tried
+    various things in the [YQL console], all with no success. This directly contradicts the [YQL Paging and Table Limits documentation].
+3.  The [developer forums], which is where Yahoo! says you should bring bugs and questions, are a
+    wasteland.
+
+After some messing around, `select * from xml` seems old and busted; `select * from feed` is the new
+hotness.
+
 ## Credit
 
 My work on this plugin was inspired by John Patrick Given's excellent [So So Social Plugin]. The license
 will be determined once I hear back from him.
 
 [So So Social Plugin]: http://johnpatrickgiven.com/jquery/soSoSocial/
+[YQL console]: http://developer.yahoo.com/yql/console/
+[YQL Paging and Table Limits documentation]: http://developer.yahoo.com/yql/guide/paging.html
+[developer forums]: http://developer.yahoo.com/forum/YQL/
