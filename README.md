@@ -29,7 +29,7 @@ Example:
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
     <script src="jquery.jsonp-2.1.4.js" type="text/javascript"></script>
-    <script src="exampleinput.js" type="text/javascript"></script>
+    <script src="so.what.social.js" type="text/javascript"></script>
 
 2.  Include an empty div somewhere in `<body></body>` that will be filled in by so.what.social
     It's nice to include some kind of "loading" animation so your users aren't *too* shocked when the plugin loads.
