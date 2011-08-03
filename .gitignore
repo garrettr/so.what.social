@@ -3,3 +3,6 @@
 
 # Ignore Mac OS X
 .DS_Store
+
+# Ignore Python bytecode
+.pyc
