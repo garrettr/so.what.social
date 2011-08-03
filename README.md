@@ -81,3 +81,10 @@ Example:
     esp. for Twitter).
 4.  Better error handling.
 5.  The building of the <li> text (POST_ARRAY[COUNT][0]) is awkward and repetitive. Better way?
+
+## Credit
+
+My work on this plugin was inspired by John Patrick Given's excellent [So So Social Plugin]. The license
+will be determined once I hear back from him.
+
+[So So Social Plugin]: http://johnpatrickgiven.com/jquery/soSoSocial/
