@@ -1,2 +1,5 @@
 # Ignore Vim swap files
 *.swp
+
+# Ignore Mac OS X
+.DS_Store
