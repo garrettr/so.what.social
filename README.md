@@ -2,7 +2,9 @@ README
 ------
 
 This is a public feed aggregator. 
-Thanks to Twitter, things are a little more complicated.
+
+**Check out the [DEMO]**
+
 
 Supported platforms:
 
@@ -104,6 +106,7 @@ hotness.
 My work on this plugin was inspired by John Patrick Given's excellent [So So Social Plugin]. The license
 will be determined once I hear back from him.
 
+[DEMO]: http://so.what.social-demo.s3-website-us-east-1.amazonaws.com/
 [So So Social Plugin]: http://johnpatrickgiven.com/jquery/soSoSocial/
 [YQL console]: http://developer.yahoo.com/yql/console/
 [YQL Paging and Table Limits documentation]: http://developer.yahoo.com/yql/guide/paging.html
