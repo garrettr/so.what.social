@@ -3,13 +3,32 @@
     <link rel="stylesheet" type="text/css" href="example.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
     <script src="jquery.jsonp-2.1.4.js" type="text/javascript"></script>
-    <script src="exampleinput.js" type="text/javascript"></script>
+    <script src="so.what.social.js" type="text/javascript"></script>
     <!-- pass feeds as option to soWhatSocial? -->
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#activityFeed").soWhatSocial();
+            $("#activityFeed").soWhatSocial({
+                "feeds": [
+                    {
+                        "title": "Honest Appalachia",
+                        "type": "rss",
+                        "id": "https://blog.honestappalachia.org/feed/"
+                    },
+                    {
+                        "title": "RAMPS",
+                        "type": "twitter",
+                        "id": "rampswv"
+                    },
+                    {
+                        "title": "Appalachia Rising",
+                        "type": "facebook",
+                        "id": "http://www.facebook.com/feeds/page.php?id=135221739823874&format=rss20"
+                    }
+                ],
+            });
         });
     </script>
+
 </head>
 
 <body> 
