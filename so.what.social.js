@@ -11,6 +11,7 @@
 
         var defaults = {
             'feeds': [],                // list of feeds in format { 'title': '', 'type': '', 'id': '' }
+            'totalPosts': 10,           // total posts to display
             'sourceMax': 5              // max number to show from any one source
         };
 
@@ -203,7 +204,7 @@
                 CONTAINER.html("");
                 POST_ARRAY.sort(by(2,1));
                 var html = '<ol>';
-                for (j = 0; j < COUNT; j++) {
+                for (j = 0; j < ( (COUNT < settings.totalPosts) ? COUNT : settings.totalPosts ); j++) {
                     html += POST_ARRAY[j][0] + '<br />(' + POST_ARRAY[j][1] + ')</li>';
                 }
                 html += '</ol>';
