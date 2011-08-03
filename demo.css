@@ -1,5 +1,5 @@
 body {
-    font:14px/1.5 Georgia, serif;
+    font:12px/1.4 Arial, sans-serif;
     background-color:black;
     color:white;
     width:600px;
@@ -11,20 +11,23 @@ body {
 }
 
 #activityFeed ol {
-    list-style-type:none;
+    margin:0;
+    padding:0;
+    list-style:none;
 }
 
 #activityFeed li {
     display: block;
-    margin-bottom:5px;
+    margin-bottom:3px;
     color:#fff;
-    background:#333;
-    padding:8px;
-    border-radius:5px;
+    background:#323232;
+    padding: 8px;
+    padding-top:1px;    /* why is this so weird? more padding on top then elsewhere... */
+    border-radius:10px;
 }
 
 #activityFeed li:hover { background:#444; }
 
-#activityFeed .logo { float:right; position:relative; }
+#activityFeed .logo { float:left; position:relative; margin-right:6px; }
 
 #activityFeed a { color:#4AC0FF; }

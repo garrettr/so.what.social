@@ -61,7 +61,6 @@
             }
         }
 
-        // TODO Make sure this is working
         function get_words(text, number) {
             // return the first number words of text
             var words = text.split(" ");
@@ -131,7 +130,36 @@
             });
         }
         function tryFacebook(feed) {
-            tryRSS(feed);
+            // uses YQL select * from xml at the moment
+            // basically the same as tryRSS, just inserting the Facebook icon
+            // there is a better, less repetitive way to do this...
+            $.jsonp({
+                url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D%22"+encodeURIComponent(feed.id)+"%22&format=json&callback=?",
+            cache: true,
+            success: function(d) {
+                $(d.query.results.rss.channel.item).each(function () {
+                    var title = this.title;
+                    var link = this.link;
+                    var description = this.description;
+                    var pubDate = this.pubDate;
+                    var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
+
+                    /* append to div */
+                    POST_ARRAY[COUNT] = new Array();
+                    /* domain specific icon code here? */
+                    POST_ARRAY[COUNT][0] = "<li><p><strong>"+feed.title+'</strong><img class="logo" src="facebook_21.png" /></p>' + linkify(get_words(strip_tags(description), 30));
+                    POST_ARRAY[COUNT][1] = relative_time(pubDate);
+                    POST_ARRAY[COUNT][2] = get_delta(pubDate);
+                    COUNT++;
+                });
+                FINISHED++;
+            },
+            error: function(d, msg) {
+                       console.log("ERROR Could not load resource: RSS, "+feed.id);
+                        FINISHED++;
+                   }
+            });
+
         }
         function tryRSS(feed) {
             // uses YQL select * from xml at the moment
@@ -139,23 +167,21 @@
                 url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D%22"+encodeURIComponent(feed.id)+"%22&format=json&callback=?",
             cache: true,
             success: function(d) {
-                if (d.query.results.rss) {
-                    $(d.query.results.rss.channel.item).each(function () {
-                        var title = this.title;
-                        var link = this.link;
-                        var description = this.description;
-                        var pubDate = this.pubDate;
-                        var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
+                $(d.query.results.rss.channel.item).each(function () {
+                    var title = this.title;
+                    var link = this.link;
+                    var description = this.description;
+                    var pubDate = this.pubDate;
+                    var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
 
-                        /* append to div */
-                        POST_ARRAY[COUNT] = new Array();
-                        /* domain specific icon code here? */
-                        POST_ARRAY[COUNT][0] = "<li><p><strong>"+feed.title+'</strong><img class="logo" src="rss_21.png" /></p>' + linkify(strip_tags(description));
-                        POST_ARRAY[COUNT][1] = relative_time(pubDate);
-                        POST_ARRAY[COUNT][2] = get_delta(pubDate);
-                        COUNT++;
-                    });
-                }
+                    /* append to div */
+                    POST_ARRAY[COUNT] = new Array();
+                    /* domain specific icon code here? */
+                    POST_ARRAY[COUNT][0] = "<li><p><strong>"+feed.title+'</strong><img class="logo" src="rss_21.png" /></p>' + linkify(get_words(strip_tags(description), 30));
+                    POST_ARRAY[COUNT][1] = relative_time(pubDate);
+                    POST_ARRAY[COUNT][2] = get_delta(pubDate);
+                    COUNT++;
+                });
                 FINISHED++;
             },
             error: function(d, msg) {
