@@ -11,6 +11,11 @@
 
         var defaults = {
             'feeds': [],                // list of feeds in format { 'title': '', 'type': '', 'id': '' }
+            'icons': {
+                'rss': 'rss_21.png',
+                'twitter': 'twitter_21.png',
+                'facebook': 'facebook_21.png'
+            },
             'totalPosts': 10,           // total posts to display
             'sourceMax': 5              // max number to show from any one source
         };
@@ -112,6 +117,17 @@
             return text.replace(/<[^>]*>?/g, '');
         }
 
+        function build_li(feed, text, date, url) {
+            // wrap li in the url of the original resource
+            li_text =   "<li>";
+            li_text +=  '<a class="clickable" href="'+url+'" ></a>';
+            li_text +=  "<p><strong>"+feed.title+'</strong><img class="icon" src="'+settings.icons[feed.type]+'" /></p>';
+            li_text +=  text;
+            li_text +=  '<br />(' + relative_time(date) + ')';
+            li_text +=  "</li>";
+            return li_text;
+        }
+
         function tryTwitter(feed) {
             $.jsonp({
                 url: "http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+feed.id+"&trim_user=true&count="+settings.sourceMax+"&include_rts=1&callback=?",
@@ -120,9 +136,10 @@
                 $(d).each(function () {
                     var tweet = this.text;
                     var pubDate = this.created_at;
+                    var url = 'https://twitter.com/#!/'+feed.id+'/status/'+this.id_str;
 
                     POST_ARRAY[COUNT] = new Array();
-                    POST_ARRAY[COUNT][0] = "<li><p><strong>"+feed.title+'</strong><img class="logo" src="twitter_21.png" /></p>'+linkify(tweet);
+                    POST_ARRAY[COUNT][0] = build_li(feed, linkify(tweet), pubDate, url);
                     POST_ARRAY[COUNT][1] = relative_time(pubDate);
                     POST_ARRAY[COUNT][2] = get_delta(pubDate);
                     COUNT++;
@@ -130,9 +147,9 @@
                 FINISHED++;
             },
             error: function(d, msg) {
-                       console.log("ERROR Could not load resource: Twitter, "+id);
-                        FINISHED++;
-                   }
+                   console.log("ERROR Could not load resource: Twitter, "+id);
+                   FINISHED++;
+               }
             });
         }
         function tryFacebook(feed) {
@@ -143,15 +160,14 @@
             success: function(d) {
                 $(d.query.results.item).each(function () {
                     var title = this.title;
-                    var link = this.link;
+                    var url = this.link;
                     var description = this.description;
                     var pubDate = this.pubDate;
                     var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
 
                     /* append to div */
                     POST_ARRAY[COUNT] = new Array();
-                    /* domain specific icon code here? */
-                    POST_ARRAY[COUNT][0] = "<li><p><strong>"+feed.title+'</strong><img class="logo" src="facebook_21.png" /></p>' + linkify(get_words(strip_tags(description), 30));
+                    POST_ARRAY[COUNT][0] = build_li(feed, linkify(get_words(strip_tags(description), 30)), pubDate, url);
                     POST_ARRAY[COUNT][1] = relative_time(pubDate);
                     POST_ARRAY[COUNT][2] = get_delta(pubDate);
                     COUNT++;
@@ -159,9 +175,9 @@
                 FINISHED++;
             },
             error: function(d, msg) {
-                       console.log("ERROR Could not load resource: RSS, "+feed.id);
-                        FINISHED++;
-                   }
+                   console.log("ERROR Could not load resource: RSS, "+feed.id);
+                   FINISHED++;
+               }
             });
 
         }
@@ -173,15 +189,14 @@
             success: function(d) {
                 $(d.query.results.item).each(function () {
                     var title = this.title;
-                    var link = this.link;
+                    var url = this.link;
                     var description = this.description;
                     var pubDate = this.pubDate;
                     var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
 
                     /* append to div */
                     POST_ARRAY[COUNT] = new Array();
-                    /* domain specific icon code here? */
-                    POST_ARRAY[COUNT][0] = "<li><p><strong>"+feed.title+'</strong><img class="logo" src="rss_21.png" /></p>' + linkify(get_words(strip_tags(description), 30));
+                    POST_ARRAY[COUNT][0] = build_li(feed, linkify(get_words(strip_tags(description), 30)), pubDate, url);
                     POST_ARRAY[COUNT][1] = relative_time(pubDate);
                     POST_ARRAY[COUNT][2] = get_delta(pubDate);
                     COUNT++;
@@ -205,7 +220,7 @@
                 POST_ARRAY.sort(by(2,1));
                 var html = '<ol>';
                 for (j = 0; j < ( (COUNT < settings.totalPosts) ? COUNT : settings.totalPosts ); j++) {
-                    html += POST_ARRAY[j][0] + '<br />(' + POST_ARRAY[j][1] + ')</li>';
+                    html += POST_ARRAY[j][0];
                 }
                 html += '</ol>';
                 CONTAINER.hide().append(html).fadeIn();
