@@ -93,7 +93,7 @@ function tryTwitter(id) {
             });
         },
         "error": function(d, msg) {
-            console.log("ERROR Could not load resource: Twitter, "+id);
+            console.log("ERROR Could not load resource: Twitter, "+feed.id);
         }
     });
     sws.FINISHED++;
@@ -225,7 +225,7 @@ function relative_time(time_value) {
     } else if(delta < (24*60*60)) {
         return 'about ' + (parseInt(delta / 3600)).toString() + ' hours ago';
     } else if(delta < (48*60*60)) {
-        return '1 day ago';
+        return 'Yesterday';
     } else {
         return (parseInt(delta / 86400)).toString() + ' days ago';
     }
