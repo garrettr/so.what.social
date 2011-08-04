@@ -10,8 +10,8 @@ Supported platforms:
 
 1.  Facebook Pages
     Provide the link to a Page's RSS feed. You can find this by
-    a) logging into Facebook
-    b) go to the page - in the left column, choose "Subscribe via RSS" and copy the resulting URL.
+        a) logging into Facebook
+        b) go to the page - in the left column, choose "Subscribe via RSS" and copy the resulting URL.
 2.  RSS/Atom feeds
     Provide the link to the feed.
 3.  Twitter
@@ -20,7 +20,7 @@ Supported platforms:
 The key option is feeds. Pass a JSON list, where each object has 3 fields:
 
 1.  title: Pick a descriptive title
-2.  type: 'rss', 'facebook', or 'twitter'
+2.  type: Options are 'rss', 'facebook', or 'twitter'
 3.  id: The *full URL* or an RSS/Atom feed, or a Twitter screenname
 
 Example:
@@ -72,19 +72,25 @@ Example:
 
 ## TODO
 
+1.  Better error handling.
+    Error - sometimes YQL returns null. This crashes the immediate function, FINISHED++ is never called.
+    There's a better way.
+2.  I added `<a>` tags to the post <li>'s, giving them links back to the original asset (Tweet, Facebook
+    page, etc). Problem: now the links created by linkify(), for example from a tweet, don't work. They
+    appear to be overriden by the outer <li> link.
+
+## TO-DONE
+
 1.  Incorporate more settings for easy customization without digging into the code.
     Ideas:
     1.  URLs for feed-type icons. Perhaps a dictionary that matches with "type"
     2.  Number of posts to show (total)
     3.  Max. posts from any source
-2.  There's a lot of repetitive code in Facebook/RSS right now. Think about it.
-3.  Make the grey link boxes clickable - should take you to the original asset.
+2.  Make the grey link boxes clickable - should take you to the original asset.
     Depends on original resource type, will have to build a URL (see earlier URL work in feedeater,
     esp. for Twitter).
-4.  Better error handling.
-    Error - sometimes YQL returns null. This crashes the immediate function, FINISHED++ is never called.
-    There's a better way.
-5.  The building of the <li> text (POST_ARRAY[COUNT][0]) is awkward and repetitive. Better way?
+3.  The building of the <li> text (POST_ARRAY[COUNT][0]) is awkward and repetitive. Better way?
+    Wrote build_li function
 
 ## Notes about backend technology
 
