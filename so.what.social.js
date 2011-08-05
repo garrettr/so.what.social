@@ -118,10 +118,9 @@
         }
 
         function build_li(feed, text, date, url) {
-            // wrap li in the url of the original resource
             li_text =   "<li>";
-            li_text +=  '<a class="clickable" href="'+url+'" ></a>';
-            li_text +=  "<p><strong>"+feed.title+'</strong><img class="icon" src="'+settings.icons[feed.type]+'" /></p>';
+            // link around title/icon instead
+            li_text +=  '<p><a class="original_post" href="'+url+'"><strong>'+feed.title+'</strong><img class="icon" src="'+settings.icons[feed.type]+'" /></a></p>';
             li_text +=  text;
             li_text +=  '<br />(' + relative_time(date) + ')';
             li_text +=  "</li>";
