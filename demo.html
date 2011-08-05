@@ -1,38 +1,52 @@
 <html>
-<head>
-    <link rel="stylesheet" type="text/css" href="demo.css" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
-    <script src="jquery.jsonp-2.1.4.js" type="text/javascript"></script>
-    <script src="so.what.social.js" type="text/javascript"></script>
-    <!-- pass feeds as option to soWhatSocial? -->
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#activityFeed").soWhatSocial({
-                "feeds": [
-                    {
-                        "title": "Honest Appalachia",
+    <head>
+        <link rel="stylesheet" type="text/css" href="demo.css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+        <script src="jquery.jsonp-2.1.4.js" type="text/javascript"></script>
+        <script src="so.what.social.js" type="text/javascript"></script>
+        <!-- pass feeds as option to soWhatSocial? -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+                    $("#activityFeed").soWhatSocial({
+                        "feeds": [
+                        {
+                        "title": "RAMPS Campaign",
                         "type": "rss",
-                        "id": "https://blog.honestappalachia.org/feed/"
-                    },
-                    {
+                        "id": "http://rampscampaign.org/feed/"
+                        },
+                        {
                         "title": "RAMPS",
                         "type": "twitter",
                         "id": "rampswv"
-                    },
-                    {
+                        },
+                        {
                         "title": "Appalachia Rising",
                         "type": "facebook",
                         "id": "http://www.facebook.com/feeds/page.php?id=135221739823874&format=rss20"
-                    }
-                ],
-            });
-        });
-    </script>
+                        }
+                        ],
+                        });
+                    });
+</script>
 
 </head>
 
 <body> 
-    <h1>News Feed</h1>
+    <h1>So.What.Social JQuery Plugin</h1>
+
+    <p>so.what.social is a social media aggregator. Given a list of feeds, it grabs the most recent
+    activity and displays a customizable feed to the user.</p>
+    <p>Everything is done with YQL, service-provided RESTful API's, and JSONP - so there is no need for any
+    server-side code to retrieve your recent social network activity.</p>
+    <p>so.what.social is a work in progress, but is stable and easy to use. At the moment we support
+    Twitter, Facebook, and any RSS/Atom feed. Head over to my <a href="https://github.com/handsomeransoms/so.what.social">github</a> to get the code, and check out the
+    README for simple setup instructions.</p>
+    <p>so.what.social is based on John Patrick Given's excellent <a href="http://johnpatrickgiven.com/jquery/soSoSocial/">So So Social</a> JQuery plugin. 
+    so.what.social is so.named because I started writing it while listening to <a
+        href="http://kindofbloop.com/">Kind of Bloop</a>.</p>
+
+    <h1>Demo</h1>
+
     <div id="activityFeed">
         <img id="loading" src="ajax-loading.gif" />
     </div>
