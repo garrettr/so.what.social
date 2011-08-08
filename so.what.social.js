@@ -166,7 +166,7 @@
 
                     /* append to div */
                     POST_ARRAY[COUNT] = new Array();
-                    POST_ARRAY[COUNT][0] = build_li(feed, linkify(get_words(strip_tags(description), 30)), pubDate, url);
+                    POST_ARRAY[COUNT][0] = build_li(feed, linkify(get_words(strip_tags(title), 30)), pubDate, url);
                     POST_ARRAY[COUNT][1] = relative_time(pubDate);
                     POST_ARRAY[COUNT][2] = get_delta(pubDate);
                     COUNT++;
