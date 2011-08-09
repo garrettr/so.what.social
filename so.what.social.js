@@ -146,7 +146,7 @@
                 FINISHED++;
             },
             error: function(d, msg) {
-                   console.log("ERROR Could not load resource: Twitter, "+id);
+                   // console.log("ERROR Could not load resource: Twitter, "+id);
                    FINISHED++;
                }
             });
@@ -174,7 +174,7 @@
                 FINISHED++;
             },
             error: function(d, msg) {
-                   console.log("ERROR Could not load resource: RSS, "+feed.id);
+                   // console.log("ERROR Could not load resource: RSS, "+feed.id);
                    FINISHED++;
                }
             });
@@ -203,16 +203,16 @@
                 FINISHED++;
             },
             error: function(d, msg) {
-                       console.log("ERROR Could not load resource: RSS, "+feed.id);
+                       // console.log("ERROR Could not load resource: RSS, "+feed.id);
                         FINISHED++;
                    }
             });
         }
 
         function print_array() {
-            console.log("Finished: "+FINISHED);
-            console.log("Total: "+TOTAL);
-            console.log("Count: "+COUNT);
+            // console.log("Finished: "+FINISHED);
+            // console.log("Total: "+TOTAL);
+            // console.log("Count: "+COUNT);
 
             if(FINISHED == TOTAL) { 
                 CONTAINER.html("");
@@ -241,7 +241,7 @@
                 } else if ( feed.type == "rss" ) {
                     tryRSS(feed);
                 } else {
-                    console.log("feed type="+feed.type+" is unsupported. Skipped.");
+                    // console.log("feed type="+feed.type+" is unsupported. Skipped.");
                     FINISHED++;
                 }
 
