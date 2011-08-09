@@ -72,7 +72,7 @@ Example:
 
 ## TODO
 
-1.  Better error handling.
+1.  Better error handling. Use try/catch - also, console.log was crashing script in browsers w/o a console.
     Error - sometimes YQL returns null. This crashes the immediate function, FINISHED++ is never called.
     There's a better way.
 2.  I added `<a>` tags to the post <li>'s, giving them links back to the original asset (Tweet, Facebook
