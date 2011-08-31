@@ -77,7 +77,7 @@ Example:
     There's a better way.
 2.  I added `<a>` tags to the post <li>'s, giving them links back to the original asset (Tweet, Facebook
     page, etc). Problem: now the links created by linkify(), for example from a tweet, don't work. They appear
-    to be overriden by the outer <li> link.
+    to be overridden by the outer <li> link.
 3.  Minor bug: If a link in text isn't surrouned by spaces, extraneous text (like ...) will be included in
     the link, sometimes breaking it.
 
