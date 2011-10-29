@@ -14,7 +14,8 @@
             'icons': {
                 'rss': 'rss_21.png',
                 'twitter': 'twitter_21.png',
-                'facebook': 'facebook_21.png'
+                'facebook': 'facebook_21.png',
+                'plusfeed2': 'gplus_21.png'
             },
             'totalPosts': 10,           // total posts to display
             'sourceMax': 5              // max number to show from any one source
@@ -127,6 +128,34 @@
             return li_text;
         }
 
+        function tryPlusFeed2(feed) {
+            // uses YQL select * from feed at the moment
+            $.jsonp({
+                url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20feed%20where%20url%3D%22"+encodeURIComponent(feed.id)+"%22%20limit%20"+settings.sourceMax+"&format=json&callback=?",
+            cache: true,
+            success: function(d) {
+                $(d.query.results.entry).each(function () {
+                    var title = this.title;
+                    var url = this.link.href;
+                    var description = this.summary.content;
+                    var pubDate = this.updated;
+                    var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
+
+                    /* append to div */
+                    POST_ARRAY[COUNT] = new Array();
+                    POST_ARRAY[COUNT][0] = build_li(feed, linkify(get_words(strip_tags(description), 30)), pubDate, url);
+                    POST_ARRAY[COUNT][1] = relative_time(pubDate);
+                    POST_ARRAY[COUNT][2] = get_delta(pubDate);
+                    COUNT++;
+                });
+                FINISHED++;
+            },
+            error: function(d, msg) {
+                       // console.log("ERROR Could not load resource: RSS, "+feed.id);
+                        FINISHED++;
+                   }
+            });
+        }
         function tryTwitter(feed) {
             $.jsonp({
                 url: "http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+feed.id+"&trim_user=true&count="+settings.sourceMax+"&include_rts=1&callback=?",
@@ -240,6 +269,8 @@
                     tryFacebook(feed);
                 } else if ( feed.type == "rss" ) {
                     tryRSS(feed);
+                } else if ( feed.type == "plusfeed2") {
+                    tryPlusFeed2(feed);
                 } else {
                     // console.log("feed type="+feed.type+" is unsupported. Skipped.");
                     FINISHED++;
