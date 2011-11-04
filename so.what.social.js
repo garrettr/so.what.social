@@ -164,6 +164,7 @@
                 $(d).each(function () {
                     var tweet = this.text;
                     var pubDate = this.created_at;
+                    var pubDate = pubDate.replace(/\,/g,'');    /* removes comma after weekday */
                     var url = 'https://twitter.com/#!/'+feed.id+'/status/'+this.id_str;
 
                     POST_ARRAY[COUNT] = new Array();
